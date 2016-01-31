@@ -1,7 +1,7 @@
 # LuserBot
 
-My first attempt at making an IRC chat bot in Elixir. Horribly implemented and
-probably breaks every single best practice in the Elixir/Erlang/OTP world. But hey,
+My first attempt at making an IRC chat bot in Elixir.  Horribly implemented and
+probably breaks every single best practice in the Elixir/Erlang/OTP world.  But hey,
 there's always a first time!
 
 ## Usage
