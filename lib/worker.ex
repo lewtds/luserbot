@@ -3,7 +3,7 @@ defmodule LuserBot.MyWorker do
   require Logger
   use GenServer
 
-  @channels ["#mychannel"] #, "#vnluser"]
+  @channels ["#mychannel", "#vnluser"]
 
   def start_link(name) do
     IO.puts "MyWorker started"
