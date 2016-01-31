@@ -1,50 +1,50 @@
 
 defmodule LuserBot.MyWorker do
   require Logger
-	use GenServer
+  use GenServer
 
   @channels ["#mychannel", "#vnluser"]
-  
-	def start_link(name) do
-		IO.puts "MyWorker started"
+
+  def start_link(name) do
+    IO.puts "MyWorker started"
     initial_state = :ok
-		GenServer.start_link(__MODULE__, initial_state, name: name)
-	end
+    GenServer.start_link(__MODULE__, initial_state, name: name)
+  end
 
-	def init(state) do
+  def init(state) do
     IO.inspect state
-		{:ok, client} = ExIrc.start_client!()
-		ExIrc.Client.add_handler client, self()
-		ExIrc.Client.connect! client, "chat.freenode.net", 6667
+    {:ok, client} = ExIrc.start_client!()
+    ExIrc.Client.add_handler client, self()
+    ExIrc.Client.connect! client, "chat.freenode.net", 6667
 
-		{:ok, client}
-	end
+    {:ok, client}
+  end
 
-	def handle_info({:connected, server, port}, client) do
-		IO.puts "connected"
-		ExIrc.Client.logon client, "", "chinbot", "chinbot", "chinbot"
-		{:noreply, client}
-	end
+  def handle_info({:connected, server, port}, client) do
+    IO.puts "connected"
+    ExIrc.Client.logon client, "", "chinbot", "chinbot", "chinbot"
+    {:noreply, client}
+  end
 
-	def handle_info(:logged_in, client) do
-		IO.puts "logged_in"
+  def handle_info(:logged_in, client) do
+    IO.puts "logged_in"
 
     Enum.each(@channels, fn channel ->
       ExIrc.Client.join client, channel
     end)
     {:noreply, client}
-	end
+  end
 
-	def handle_info({:joined, channel}, client) do
-		ExIrc.Client.msg client, :privmsg, String.strip(channel), "Hallo!"
-		{:noreply, client}
-	end
+  def handle_info({:joined, channel}, client) do
+    ExIrc.Client.msg client, :privmsg, String.strip(channel), "Hallo!"
+    {:noreply, client}
+  end
 
-	def handle_info({:received, msg, user, channel}, client) do
-		# ExIrc.Client.msg client, :privmsg, channel, "Hello " <> user
+  def handle_info({:received, msg, user, channel}, client) do
+    # ExIrc.Client.msg client, :privmsg, channel, "Hello " <> user
     urls = extract_urls(msg)
 
-		IO.inspect urls
+    IO.inspect urls
 
     urls |>
       Enum.each(fn url ->
@@ -56,20 +56,20 @@ defmodule LuserBot.MyWorker do
         end
         :ok
       end)
-		{:noreply, client}
-	end
+    {:noreply, client}
+  end
 
   def handle_info(:disconnected, client) do
     # FIXME: Try to reconnect here
     {:noreply, client}
   end
 
-	# Catch-all for messages you don't care about
-	def handle_info(msg, _state) do
-		Logger.debug "Received IrcMessage:"
-		IO.inspect msg
-		{:noreply, nil}
-	end
+  # Catch-all for messages you don't care about
+  def handle_info(msg, _state) do
+    Logger.debug "Received IrcMessage:"
+    IO.inspect msg
+    {:noreply, nil}
+  end
 
   def code_change(old_version, state, extra) do
     IO.puts "Code change"
