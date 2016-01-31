@@ -3,6 +3,8 @@ defmodule LuserBot.MyWorker do
   require Logger
 	use GenServer
 
+  @channels ["#mychannel", "#vnluser"]
+  
 	def start_link(name) do
 		IO.puts "MyWorker started"
     initial_state = :ok
@@ -26,8 +28,11 @@ defmodule LuserBot.MyWorker do
 
 	def handle_info(:logged_in, client) do
 		IO.puts "logged_in"
-		ExIrc.Client.join client, "#mychannel"
-		{:noreply, client}
+
+    Enum.each(@channels, fn channel ->
+      ExIrc.Client.join client, channel
+    end)
+    {:noreply, client}
 	end
 
 	def handle_info({:joined, channel}, client) do
@@ -58,7 +63,6 @@ defmodule LuserBot.MyWorker do
     # FIXME: Try to reconnect here
     {:noreply, client}
   end
-
 
 	# Catch-all for messages you don't care about
 	def handle_info(msg, _state) do
