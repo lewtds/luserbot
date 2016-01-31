@@ -49,6 +49,9 @@ defmodule LuserBot.MyWorker do
     urls |>
       Enum.each(fn url ->
         case get_url_title(url) do
+          {:ok, ""} ->
+            :ok
+            # Do nothing on empty title
           {:ok, title} ->
             ExIrc.Client.msg client, :privmsg, channel, "TITLE > " <> title
           {:error, error_msg} ->
