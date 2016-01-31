@@ -1,0 +1,1 @@
+ircbot: mix run --no-halt
