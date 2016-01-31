@@ -30,6 +30,7 @@ defmodule LuserBot.Mixfile do
   defp deps do
     [{:exirc, "~> 0.8.0"},
      {:httpoison, "~> 0.8.0"},
-     {:dialyxir, "~> 0.3", only: [:dev]}]
+     {:dialyxir, "~> 0.3", only: [:dev]},
+     {:exrm, "~> 0.19.9"}]
   end
 end
