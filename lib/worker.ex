@@ -107,7 +107,6 @@ end
 defmodule LuserBot.HTMLTitleParser do
   @spec parse(String.t) :: String.t | {:error, String.t}
   def parse(html) do
-    IO.puts(String.length html)
     case :xmerl_sax_parser.stream(html, event_fun: &on_parser_event/3) do
       {:title_found, _, title, _, _} ->
         to_string title
@@ -117,7 +116,6 @@ defmodule LuserBot.HTMLTitleParser do
   end
 
   def on_parser_event({:startElement, _, 'title', _, _}, location, state) do
-    IO.puts "in title"
     :in_title
   end
 
