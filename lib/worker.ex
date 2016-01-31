@@ -65,10 +65,10 @@ defmodule LuserBot.MyWorker do
   end
 
   # Catch-all for messages you don't care about
-  def handle_info(msg, _state) do
+  def handle_info(msg, state) do
     Logger.debug "Received IrcMessage:"
     IO.inspect msg
-    {:noreply, nil}
+    {:noreply, state}
   end
 
   def code_change(old_version, state, extra) do
