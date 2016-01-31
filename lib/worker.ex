@@ -87,9 +87,14 @@ defmodule LuserBot.MyWorker do
         {:ok, extract_title(body)}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:error, "Not found :("}
+      {:ok, %HTTPoison.Response{status_code: 301, body: body}} ->
+        {:error, "Can't do redirection yet :("}
+      # FIXME: Handle redirection here
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
         {:error, "Cannot load page :("}
+      _ ->
+        {:error, "A strange cosmic event just happened..."}
     end
   end
 
