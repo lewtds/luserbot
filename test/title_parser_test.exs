@@ -56,4 +56,36 @@ web: coffee marvin.coffee
 
     assert title == "node.js - Running an IRC bot on Heroku - Stack Overflow"
   end
+
+  test "FluxBB" do
+    title = parse """
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Help with Firestarter set up / Newbie Corner / Arch Linux Forums</title>
+    <link rel="stylesheet" type="text/css" href="style/ArchLinux.css" />
+    <link rel="canonical" href="viewtopic.php?id=20754" title="Page 1" />
+    <link rel="alternate" type="application/atom+xml" href="extern.php?action=feed&amp;tid=20754&amp;type=atom" title="Atom topic feed" />
+    <link rel="stylesheet" media="screen" href="style/ArchLinux/arch.css?v=3" />
+    <link rel="stylesheet" media="screen" href="style/ArchLinux/archnavbar.css?v=2" />
+    <link rel="shortcut icon" href="style/ArchLinux/favicon.ico" />
+    </head>
+    """
+
+    assert title == "Help with Firestarter set up / Newbie Corner / Arch Linux Forums"
+  end
+
+  test "multiline title" do
+    title = parse """
+    <title>haha
+    hihi
+    </title>
+    """
+
+    assert title == """
+    haha
+    hihi
+    """
+  end
 end
