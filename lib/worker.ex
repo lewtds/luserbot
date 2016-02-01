@@ -111,7 +111,7 @@ defmodule LuserBot.MyWorker do
 
   @spec extract_urls(String.t) :: [String.t]
   def extract_urls(string) do
-    List.flatten Regex.scan(~r|https?://[\da-z\.-]+\.[a-z\.]{2,6}[/\w\.-]*/?|, string)
+    List.flatten Regex.scan(~r|https?://[^\s]+|, string)
   end
 end
 

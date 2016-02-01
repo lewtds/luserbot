@@ -12,7 +12,10 @@ defmodule LuserBotTest do
     assert extract_urls("https://cool.co.uk message after") == ["https://cool.co.uk"]
     assert extract_urls("http://google.com ahah https://cool.co.uk message after") == ["http://google.com", "https://cool.co.uk"]
 
-    assert extract_urls("https://cool message after") == []
+    assert extract_urls("http://www.dhgate.com/wholesale/drone+kit.html") == ["http://www.dhgate.com/wholesale/drone+kit.html"]
+
+    assert extract_urls("https://cool message after") == ["https://cool"]
+
     assert extract_urls("https:cool.com message after") == []
   end
 end
